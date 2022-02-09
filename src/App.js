@@ -51,6 +51,6 @@ class App extends Component {
   }
 }
 
-App.prototype = propTypes;
+App.propTypes = propTypes;
 
 export default App;
