@@ -12,18 +12,45 @@ const propTypes = {
 @observer
 class App extends Component {
   componentWillMount() {
-    // this.props.store.getUsers();
+    this.props.store.getUsers();
   }
 
   renderProfiles() {
     return this.props.store.users.map((user) => (
-      <Profile selected={user.id === this.props.store.selectedId} />
+      <Profile
+        selected={user.id === this.props.store.selectedId}
+        key={user.id}
+        label={user.name}
+        onClick={() => {
+          this.props.store.selectUser(user);
+        }}
+      />
     ));
   }
 
+  renderSelection() {
+    if (_.isEmpty(this.props.store.selectedUser)) return null;
+    return (
+      <div className={"selection"}>
+        <Selection user={this.props.store.selectedUser} />
+        <button onClick={this.props.store.clearSelectedUser}>
+          Close Profile
+        </button>
+      </div>
+    );
+  }
+
   render() {
-    return <div className="App"></div>;
+    return (
+      <div>
+        <h3>Employee Directory</h3>
+        {this.renderSelection()}
+        {this.renderProfiles()}
+      </div>
+    );
   }
 }
+
+App.prototype = propTypes;
 
 export default App;
